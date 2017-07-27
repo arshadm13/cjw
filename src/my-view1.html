@@ -1,0 +1,181 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-view1">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      paper-button {
+        font-family: 'Roboto', 'Noto', sans-serif;
+        font-weight: normal;
+        font-size: 14px;
+        -webkit-font-smoothing: antialiased;
+        background-color: var(--paper-green-500);
+        color: white;
+      }
+      paper-toggle-button.green {
+        align-self: center;
+        border: 1px solid var(--paper-green-200);
+        padding: 8px 16px;
+        --paper-toggle-button-checked-bar-color:  var(--paper-green-500);
+        --paper-toggle-button-checked-button-color:  var(--paper-green-500);
+        --paper-toggle-button-checked-ink-color: var(--paper-green-500);
+        --paper-toggle-button-unchecked-bar-color:  var(--paper-teal-500);
+        --paper-toggle-button-unchecked-button-color:  var(--paper-teal-500);
+        --paper-toggle-button-unchecked-ink-color: var(--paper-teal-500);
+      }
+      paper-checkbox {
+        font-family: 'Roboto', sans-serif;
+        margin: 24px;
+      }
+      iron-list {
+        height: 100vh;
+      }
+      .item {
+        padding-bottom: 10px;
+      }
+    </style>
+
+    <div class="card">
+      <div class="circle">1</div>
+      <p>Complex Randomizer</p>
+      <p>Complexes are beneficial to work on technique and hone a lifter's focus. Select a lift to generate a random complex for every set.
+      The random dynamic makes this workout fun and challenging. </p>
+      <p>Warm up before starting the complex. It's not my fault if you get hurt.</p>
+    </div>
+
+    <div class="card">
+
+      <paper-button raised on-click="handleClick" data-args="cj">Clean & jerk</paper-button> <paper-button raised on-click="handleClick" data-args="sn">Snatch</paper-button>
+        <!--<paper-checkbox>Level 1</paper-checkbox> <paper-checkbox>Level 2</paper-checkbox> -->
+        <span> Select a lift for a random complex. </span>
+      <paper-toggle-button id="leveltoggle" class="green" on-click="handleToggle" checked="{{propEnabled}}" style="float: right; text-align: center;"> {{level}} </paper-toggle-button>
+
+    </div>
+
+    <iron-list items="[[items]]" as="item">
+      <template>
+        <div class="card">
+          <h1>[[item]]</h1>
+        </div>
+
+        </div>
+      </template>
+
+    </iron-list>
+
+  </template>
+ <script src="complex.js" type="text/javascript"></script>
+  <script>
+    class MyView1 extends Polymer.Element {
+      static get is() { return 'my-view1'; }
+
+      static get properties() {
+        return {
+          items: {
+            type: Array,
+            value: []
+          },
+          propEnabled: {
+            type: Boolean,
+            value: false
+          },
+          level: {
+            type: String,
+            value: "Level 1"
+          }
+        }
+      }
+
+      handleToggle() {
+        if(!this.propEnabled) {
+          this.level = "Level 2"
+        } else {
+          this.level = "Level 1"
+        }
+      }
+      handleClick(lift) {
+        console.log("Button clicked: " + lift.target.getAttribute('data-args'));
+
+        setTimeout(function() {
+          this.items = [1];
+        }, 10000);
+        this.updateComplex(lift.target.getAttribute('data-args'));
+      }
+
+      updateComplex(lift) {
+        console.log('updateComplex: ' + lift);
+
+        //Random number between 0 and size of lift complex array
+        // var complexPickL1 = Math.floor((Math.random() * 10) + 0);
+        // var complexPickL2 = Math.floor((Math.random() * 14) + 11);
+        var complexPickL1 = this.getRandomInt(0,11);
+        var complexPickL2 = this.getRandomInt(11,15)
+        var complexPickLL = 15;
+
+
+        if (this.propEnabled) {
+          console.log("Level 2");
+          var complexPick = complexPickL2
+        } else {
+          console.log("Level 1");
+          var complexPick = complexPickL1
+        }
+
+        console.log('complexPick: ' + complexPick);
+
+        if (lift === 'cj' && !this.propEnabled) {
+          console.log(JSON.stringify(complex.cj[complexPick]));
+          console.log(JSON.stringify(complex.cj[complexPick].CJ1[0]));
+          this.items = complex.cj[complexPick].CJ1;
+
+        } else if (lift === 'cj' && this.propEnabled) {
+          this.items = complex.cj[complexPick].CJ2;
+
+        } else if (lift === 'sn' && !this.propEnabled) {
+          console.log(JSON.stringify(complex.sn[complexPick]));
+          this.items = complex.sn[complexPick].SN1;
+
+        } else if (lift === 'sn' && this.propEnabled) {
+          this.items = complex.sn[complexPick].SN2;
+        }
+
+      }
+
+      getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+
+        return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+      }
+
+      levelToggle() {
+        if (!this.propEnabled) {
+          return "Level 1"
+        } else {
+          return "Level 2"
+        }
+      }
+    }
+
+    window.customElements.define(MyView1.is, MyView1);
+  </script>
+</dom-module>
