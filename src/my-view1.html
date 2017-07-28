@@ -60,14 +60,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <p>Complexes are beneficial to work on technique and hone a lifter's focus. Select a lift to generate a random complex for every set.
       The random dynamic makes this workout fun and challenging. </p>
       <p>Warm up before starting the complex. It's not my fault if you get hurt.</p>
+      <br>
+      <div style="text-align: center;"> Select a lift for a random complex. </div>
     </div>
 
     <div class="card">
 
       <paper-button raised on-click="handleClick" data-args="cj">Clean & jerk</paper-button> <paper-button raised on-click="handleClick" data-args="sn">Snatch</paper-button>
         <!--<paper-checkbox>Level 1</paper-checkbox> <paper-checkbox>Level 2</paper-checkbox> -->
-        <span> Select a lift for a random complex. </span>
+
       <paper-toggle-button id="leveltoggle" class="green" on-click="handleToggle" checked="{{propEnabled}}" style="float: right; text-align: center;"> {{level}} </paper-toggle-button>
+
 
     </div>
 
