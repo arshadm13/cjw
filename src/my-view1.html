@@ -64,26 +64,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div style="text-align: center;"> Select a lift for a random complex. </div>
     </div>
 
+
     <div class="card">
 
-      <paper-button raised on-click="handleClick" data-args="cj">Clean & jerk</paper-button> <paper-button raised on-click="handleClick" data-args="sn">Snatch</paper-button>
+    <div class ="card" style="text-align: center">  <paper-button raised on-click="handleClick" data-args="cj">Clean & jerk</paper-button> <paper-button raised on-click="handleClick" data-args="sn">Snatch</paper-button> </div>
         <!--<paper-checkbox>Level 1</paper-checkbox> <paper-checkbox>Level 2</paper-checkbox> -->
-
-      <paper-toggle-button id="leveltoggle" class="green" on-click="handleToggle" checked="{{propEnabled}}" style="float: right; text-align: center;"> {{level}} </paper-toggle-button>
+      <div class="card" style="text-align: center"> <paper-toggle-button id="leveltoggle" class="green" on-click="handleToggle" checked="{{propEnabled}}"> {{level}} </paper-toggle-button> </div>
 
 
     </div>
 
     <iron-list items="[[items]]" as="item">
       <template>
-        <div class="card">
+        <div style="text-align: center" class="card">
           <h1>[[item]]</h1>
-        </div>
 
         </div>
       </template>
 
     </iron-list>
+
 
   </template>
  <script src="complex.js" type="text/javascript"></script>
